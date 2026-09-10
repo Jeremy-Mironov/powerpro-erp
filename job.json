@@ -1,0 +1,527 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-09-09 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "s_main",
+  "title",
+  "customer",
+  "property",
+  "job_type",
+  "status",
+  "c1",
+  "lead_tech",
+  "scheduled_start",
+  "scheduled_end",
+  "completed_on",
+  "priority",
+  "s_origin",
+  "service_request",
+  "quotation",
+  "c2",
+  "project",
+  "parent_job",
+  "s_scope",
+  "description",
+  "internal_notes",
+  "s_approval",
+  "needs_owner_approval",
+  "owner_approved_by",
+  "owner_approved_on",
+  "c3",
+  "permit_required",
+  "permit",
+  "warranty_until",
+  "s_money",
+  "quoted_total",
+  "invoiced_total",
+  "paid_total",
+  "c4",
+  "material_cost",
+  "direct_purchase_cost",
+  "labor_cost",
+  "actual_cost",
+  "margin",
+  "margin_pct",
+  "s_sys",
+  "jobber_job_id",
+  "is_mirror"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "JOB-.YYYY.-",
+   "default": "JOB-.YYYY.-",
+   "hidden": 1
+  },
+  {
+   "fieldname": "s_main",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "property",
+   "fieldtype": "Link",
+   "label": "Property",
+   "options": "Property",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "job_type",
+   "fieldtype": "Select",
+   "label": "Job type",
+   "options": "\nService call\nEmergency\nSafety check\nPanel upgrade\nEV charger\nRemodel\nNew construction\nGenerator\nCommercial project\nWarranty\nOther",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Scheduled\nIn progress\nOn hold\nComplete\nInvoiced\nPaid\nClosed\nUnder warranty\nDisputed\nCancelled",
+   "default": "Scheduled",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "c1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "lead_tech",
+   "fieldtype": "Link",
+   "label": "Lead tech",
+   "options": "Employee",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "scheduled_start",
+   "fieldtype": "Date",
+   "label": "Scheduled start",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "scheduled_end",
+   "fieldtype": "Date",
+   "label": "Scheduled end"
+  },
+  {
+   "fieldname": "completed_on",
+   "fieldtype": "Date",
+   "label": "Completed on"
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "Normal\nHigh\nEmergency",
+   "default": "Normal"
+  },
+  {
+   "fieldname": "s_origin",
+   "fieldtype": "Section Break",
+   "label": "Origin"
+  },
+  {
+   "fieldname": "service_request",
+   "fieldtype": "Link",
+   "label": "Service Request",
+   "options": "Service Request"
+  },
+  {
+   "fieldname": "quotation",
+   "fieldtype": "Link",
+   "label": "Quotation",
+   "options": "Quotation"
+  },
+  {
+   "fieldname": "c2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project (commercial)",
+   "options": "Project"
+  },
+  {
+   "fieldname": "parent_job",
+   "fieldtype": "Link",
+   "label": "Warranty for job",
+   "options": "Job",
+   "description": "Set when this is a $0 warranty call-back"
+  },
+  {
+   "fieldname": "s_scope",
+   "fieldtype": "Section Break",
+   "label": "Scope"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Scope of work"
+  },
+  {
+   "fieldname": "internal_notes",
+   "fieldtype": "Small Text",
+   "label": "Internal notes",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "s_approval",
+   "fieldtype": "Section Break",
+   "label": "Approvals & permit"
+  },
+  {
+   "fieldname": "needs_owner_approval",
+   "fieldtype": "Check",
+   "label": "Needs owner approval",
+   "read_only": 1
+  },
+  {
+   "fieldname": "owner_approved_by",
+   "fieldtype": "Link",
+   "label": "Owner approved by",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "owner_approved_on",
+   "fieldtype": "Datetime",
+   "label": "Owner approved on",
+   "read_only": 1
+  },
+  {
+   "fieldname": "c3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "permit_required",
+   "fieldtype": "Check",
+   "label": "Permit required"
+  },
+  {
+   "fieldname": "permit",
+   "fieldtype": "Link",
+   "label": "Permit",
+   "options": "Permit"
+  },
+  {
+   "fieldname": "warranty_until",
+   "fieldtype": "Date",
+   "label": "Workmanship warranty until",
+   "read_only": 1
+  },
+  {
+   "fieldname": "s_money",
+   "fieldtype": "Section Break",
+   "label": "Money",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "quoted_total",
+   "fieldtype": "Currency",
+   "label": "Quoted total",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "invoiced_total",
+   "fieldtype": "Currency",
+   "label": "Invoiced total",
+   "read_only": 1,
+   "permlevel": 1
+  },
+  {
+   "fieldname": "paid_total",
+   "fieldtype": "Currency",
+   "label": "Paid total",
+   "read_only": 1,
+   "permlevel": 1
+  },
+  {
+   "fieldname": "c4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "material_cost",
+   "fieldtype": "Currency",
+   "label": "Material cost (stock issued)",
+   "read_only": 1,
+   "permlevel": 1
+  },
+  {
+   "fieldname": "direct_purchase_cost",
+   "fieldtype": "Currency",
+   "label": "Direct purchases",
+   "read_only": 1,
+   "permlevel": 1
+  },
+  {
+   "fieldname": "labor_cost",
+   "fieldtype": "Currency",
+   "label": "Labor cost (timesheets)",
+   "read_only": 1,
+   "permlevel": 1
+  },
+  {
+   "fieldname": "actual_cost",
+   "fieldtype": "Currency",
+   "label": "Actual cost",
+   "read_only": 1,
+   "permlevel": 1
+  },
+  {
+   "fieldname": "margin",
+   "fieldtype": "Currency",
+   "label": "Margin",
+   "read_only": 1,
+   "permlevel": 1
+  },
+  {
+   "fieldname": "margin_pct",
+   "fieldtype": "Percent",
+   "label": "Margin %",
+   "read_only": 1,
+   "permlevel": 1
+  },
+  {
+   "fieldname": "s_sys",
+   "fieldtype": "Section Break",
+   "label": "System",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "jobber_job_id",
+   "fieldtype": "Data",
+   "label": "Jobber job ID",
+   "unique": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "is_mirror",
+   "fieldtype": "Check",
+   "label": "Mirrored from Jobber (read-only)",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [
+  {
+   "link_doctype": "Visit",
+   "link_fieldname": "job"
+  },
+  {
+   "link_doctype": "Job Photo",
+   "link_fieldname": "job"
+  },
+  {
+   "link_doctype": "Change Order",
+   "link_fieldname": "job"
+  },
+  {
+   "link_doctype": "Permit",
+   "link_fieldname": "job"
+  },
+  {
+   "link_doctype": "Material Request",
+   "link_fieldname": "pp_job"
+  },
+  {
+   "link_doctype": "Purchase Order",
+   "link_fieldname": "pp_job"
+  },
+  {
+   "link_doctype": "Stock Entry",
+   "link_fieldname": "pp_job"
+  },
+  {
+   "link_doctype": "Timesheet",
+   "link_fieldname": "pp_job"
+  },
+  {
+   "link_doctype": "Sales Invoice",
+   "link_fieldname": "pp_job"
+  }
+ ],
+ "modified": "2026-09-09 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "PowerPro",
+ "name": "Job",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Owner",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Dispatcher",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Estimator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Field Tech",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Shop",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Bookkeeper",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Integration",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 1
+  },
+  {
+   "role": "PP Owner",
+   "read": 1,
+   "write": 1,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 1
+  },
+  {
+   "role": "PP Estimator",
+   "read": 1,
+   "write": 1,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 1
+  },
+  {
+   "role": "PP Bookkeeper",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 1
+  },
+  {
+   "role": "PP Integration",
+   "read": 1,
+   "write": 1,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "naming_series:",
+ "naming_rule": "By \"Naming Series\" field",
+ "title_field": "title",
+ "show_title_field_in_link": 1,
+ "search_fields": "customer,title,lead_tech"
+}

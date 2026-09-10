@@ -1,0 +1,208 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-09-09 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "s_rules",
+  "owner_approval_threshold",
+  "warranty_years",
+  "c1",
+  "service_call_fee",
+  "after_hours_fee",
+  "s_sla",
+  "callback_sla_minutes",
+  "quote_sla_hours",
+  "c2",
+  "review_reply_sla_hours",
+  "warranty_visit_sla_hours",
+  "s_phone",
+  "tracking_number_e164",
+  "business_line_e164",
+  "c3",
+  "auto_request_on_missed_call",
+  "missed_call_dedupe_days"
+ ],
+ "fields": [
+  {
+   "fieldname": "s_rules",
+   "fieldtype": "Section Break",
+   "label": "Business rules"
+  },
+  {
+   "fieldname": "owner_approval_threshold",
+   "fieldtype": "Currency",
+   "label": "Owner approval threshold",
+   "default": "5000",
+   "description": "Quotes and jobs above this amount need owner approval"
+  },
+  {
+   "fieldname": "warranty_years",
+   "fieldtype": "Int",
+   "label": "Workmanship warranty (years)",
+   "default": "5"
+  },
+  {
+   "fieldname": "c1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "service_call_fee",
+   "fieldtype": "Currency",
+   "label": "Service call fee",
+   "default": "250"
+  },
+  {
+   "fieldname": "after_hours_fee",
+   "fieldtype": "Currency",
+   "label": "After-hours fee",
+   "default": "400"
+  },
+  {
+   "fieldname": "s_sla",
+   "fieldtype": "Section Break",
+   "label": "Service levels"
+  },
+  {
+   "fieldname": "callback_sla_minutes",
+   "fieldtype": "Int",
+   "label": "Callback SLA (minutes)",
+   "default": "15"
+  },
+  {
+   "fieldname": "quote_sla_hours",
+   "fieldtype": "Int",
+   "label": "Quote SLA (hours after visit)",
+   "default": "24"
+  },
+  {
+   "fieldname": "c2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "review_reply_sla_hours",
+   "fieldtype": "Int",
+   "label": "Review reply SLA (hours)",
+   "default": "48"
+  },
+  {
+   "fieldname": "warranty_visit_sla_hours",
+   "fieldtype": "Int",
+   "label": "Warranty visit SLA (hours)",
+   "default": "48"
+  },
+  {
+   "fieldname": "s_phone",
+   "fieldtype": "Section Break",
+   "label": "Telephony"
+  },
+  {
+   "fieldname": "tracking_number_e164",
+   "fieldtype": "Data",
+   "label": "Tracking number (E.164)",
+   "description": "Twilio number the website and GBP show, e.g. +13603603823"
+  },
+  {
+   "fieldname": "business_line_e164",
+   "fieldtype": "Data",
+   "label": "Business line (E.164)"
+  },
+  {
+   "fieldname": "c3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "auto_request_on_missed_call",
+   "fieldtype": "Check",
+   "label": "Create Service Request on missed call",
+   "default": "1"
+  },
+  {
+   "fieldname": "missed_call_dedupe_days",
+   "fieldtype": "Int",
+   "label": "Skip if an open request for the same phone exists (days)",
+   "default": "7"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-09 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "PowerPro",
+ "name": "PowerPro Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Owner",
+   "read": 1,
+   "write": 1,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Dispatcher",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Estimator",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Integration",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "issingle": 1
+}
