@@ -1,0 +1,48 @@
+{
+ "doctype": "Sales Invoice",
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "creation": "2026-09-10 20:00:00.000000",
+   "modified": "2026-09-10 20:00:00.000000",
+   "modified_by": "Administrator",
+   "owner": "Administrator",
+   "docstatus": 0,
+   "idx": 0,
+   "name": "Sales Invoice-pp_jobber_id",
+   "dt": "Sales Invoice",
+   "fieldname": "pp_jobber_id",
+   "fieldtype": "Data",
+   "label": "Jobber ID",
+   "insert_after": "project",
+   "module": "PowerPro",
+   "is_system_generated": 0,
+   "unique": 1,
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "doctype": "Custom Field",
+   "creation": "2026-09-10 20:00:00.000000",
+   "modified": "2026-09-10 20:00:00.000000",
+   "modified_by": "Administrator",
+   "owner": "Administrator",
+   "docstatus": 0,
+   "idx": 0,
+   "name": "Sales Invoice-pp_is_mirror",
+   "dt": "Sales Invoice",
+   "fieldname": "pp_is_mirror",
+   "fieldtype": "Check",
+   "label": "Mirrored from Jobber (read-only)",
+   "insert_after": "pp_jobber_id",
+   "module": "PowerPro",
+   "is_system_generated": 0,
+   "read_only": 1,
+   "no_copy": 1
+  }
+ ],
+ "property_setters": [],
+ "custom_perms": [],
+ "links": [],
+ "sync_on_migrate": 1
+}

@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 0,
- "creation": "2026-09-09 12:00:00.000000",
+ "creation": "2026-09-10 20:00:00.000000",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -23,7 +23,11 @@
   "business_line_e164",
   "c3",
   "auto_request_on_missed_call",
-  "missed_call_dedupe_days"
+  "missed_call_dedupe_days",
+  "s_visits",
+  "default_window_start",
+  "c4",
+  "default_window_end"
  ],
  "fields": [
   {
@@ -124,11 +128,32 @@
    "fieldtype": "Int",
    "label": "Skip if an open request for the same phone exists (days)",
    "default": "7"
+  },
+  {
+   "fieldname": "s_visits",
+   "fieldtype": "Section Break",
+   "label": "Visits"
+  },
+  {
+   "fieldname": "default_window_start",
+   "fieldtype": "Time",
+   "label": "Default visit window start",
+   "default": "08:00:00"
+  },
+  {
+   "fieldname": "c4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_window_end",
+   "fieldtype": "Time",
+   "label": "Default visit window end",
+   "default": "17:00:00"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-09 12:00:00.000000",
+ "modified": "2026-09-10 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "PowerPro",
  "name": "PowerPro Settings",

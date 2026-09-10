@@ -1,4 +1,4 @@
 [
-  {"url": "https://github.com/frappe/erpnext", "branch": "version-15"},
-  {"url": "https://github.com/REPLACE_ME/powerpro-erp", "branch": "main"}
+  {"url": "https://github.com/frappe/erpnext", "branch": "version-16"},
+  {"url": "https://github.com/Jeremy-Mironov/powerpro-erp", "branch": "main"}
 ]

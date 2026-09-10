@@ -1,0 +1,48 @@
+{
+ "doctype": "Contact",
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "creation": "2026-09-10 20:00:00.000000",
+   "modified": "2026-09-10 20:00:00.000000",
+   "modified_by": "Administrator",
+   "owner": "Administrator",
+   "docstatus": 0,
+   "idx": 0,
+   "name": "Contact-pp_jobber_id",
+   "dt": "Contact",
+   "fieldname": "pp_jobber_id",
+   "fieldtype": "Data",
+   "label": "Jobber ID",
+   "insert_after": "first_name",
+   "module": "PowerPro",
+   "is_system_generated": 0,
+   "unique": 1,
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "doctype": "Custom Field",
+   "creation": "2026-09-10 20:00:00.000000",
+   "modified": "2026-09-10 20:00:00.000000",
+   "modified_by": "Administrator",
+   "owner": "Administrator",
+   "docstatus": 0,
+   "idx": 0,
+   "name": "Contact-pp_phone_e164",
+   "dt": "Contact",
+   "fieldname": "pp_phone_e164",
+   "fieldtype": "Data",
+   "label": "Phone (E.164)",
+   "insert_after": "phone",
+   "module": "PowerPro",
+   "is_system_generated": 0,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "property_setters": [],
+ "custom_perms": [],
+ "links": [],
+ "sync_on_migrate": 1
+}

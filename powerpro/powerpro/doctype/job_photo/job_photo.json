@@ -1,12 +1,12 @@
 {
  "actions": [],
  "allow_rename": 0,
- "creation": "2026-09-09 12:00:00.000000",
+ "creation": "2026-09-10 20:00:00.000000",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "job",
+  "project",
   "visit",
   "photo_type",
   "c1",
@@ -21,19 +21,21 @@
  ],
  "fields": [
   {
-   "fieldname": "job",
+   "fieldname": "project",
    "fieldtype": "Link",
    "label": "Job",
-   "options": "Job",
+   "options": "Project",
    "reqd": 1,
    "in_list_view": 1,
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "search_index": 1
   },
   {
    "fieldname": "visit",
    "fieldtype": "Link",
    "label": "Visit",
-   "options": "Visit"
+   "options": "Visit",
+   "search_index": 1
   },
   {
    "fieldname": "photo_type",
@@ -96,7 +98,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-09 12:00:00.000000",
+ "modified": "2026-09-10 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "PowerPro",
  "name": "Job Photo",

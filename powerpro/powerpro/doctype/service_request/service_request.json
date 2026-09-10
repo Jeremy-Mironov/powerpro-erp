@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 0,
- "creation": "2026-09-09 12:00:00.000000",
+ "creation": "2026-09-10 20:00:00.000000",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -28,7 +28,7 @@
   "c2",
   "call",
   "quotation",
-  "job",
+  "project",
   "lost_reason",
   "s_sys",
   "jobber_request_id",
@@ -86,13 +86,15 @@
    "fieldtype": "Link",
    "label": "Customer",
    "options": "Customer",
-   "in_list_view": 1
+   "in_list_view": 1,
+   "search_index": 1
   },
   {
    "fieldname": "property",
    "fieldtype": "Link",
    "label": "Property",
-   "options": "Property"
+   "options": "Property",
+   "search_index": 1
   },
   {
    "fieldname": "contact_name",
@@ -157,19 +159,22 @@
    "fieldname": "call",
    "fieldtype": "Link",
    "label": "Call",
-   "options": "Call"
+   "options": "Call",
+   "search_index": 1
   },
   {
    "fieldname": "quotation",
    "fieldtype": "Link",
    "label": "Quotation",
-   "options": "Quotation"
+   "options": "Quotation",
+   "search_index": 1
   },
   {
-   "fieldname": "job",
+   "fieldname": "project",
    "fieldtype": "Link",
    "label": "Job",
-   "options": "Job"
+   "options": "Project",
+   "search_index": 1
   },
   {
    "fieldname": "lost_reason",
@@ -188,27 +193,36 @@
    "fieldtype": "Data",
    "label": "Jobber request ID",
    "unique": 1,
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "is_mirror",
    "fieldtype": "Check",
    "label": "Mirrored from Jobber (read-only)",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [
   {
-   "link_doctype": "Job",
-   "link_fieldname": "service_request"
+   "link_doctype": "Project",
+   "link_fieldname": "pp_service_request",
+   "group": "Outcome"
+  },
+  {
+   "link_doctype": "Quotation",
+   "link_fieldname": "pp_service_request",
+   "group": "Outcome"
   },
   {
    "link_doctype": "Call",
-   "link_fieldname": "service_request"
+   "link_fieldname": "service_request",
+   "group": "Telephony"
   }
  ],
- "modified": "2026-09-09 12:00:00.000000",
+ "modified": "2026-09-10 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "PowerPro",
  "name": "Service Request",

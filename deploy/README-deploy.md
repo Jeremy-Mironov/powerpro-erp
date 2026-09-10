@@ -39,7 +39,7 @@ git clone https://github.com/frappe/frappe_docker ~/frappe_docker
 cat > ~/apps.json <<'JSON'
 [
   {"url": "https://github.com/frappe/erpnext", "branch": "version-16"},
-  {"url": "https://github.com/ЛОГИН/powerpro-erp", "branch": "main"}
+  {"url": "https://github.com/Jeremy-Mironov/powerpro-erp", "branch": "main"}
 ]
 JSON
 ```
@@ -135,24 +135,38 @@ sudo chmod +x /etc/cron.daily/erp-backup
 Бэкапы лежат в `sites/erp.powerprofessor.co/private/backups`. Отправку в Dropbox
 настроим отдельно (Integrations → Dropbox Settings внутри ERPNext либо rclone).
 
-## 9. Обновление приложения
+## 9. Обновление приложения (после `git push` в powerpro-erp)
+
+Код приложения живёт внутри образа, поэтому каждая правка = пересборка образа.
+`CACHE_BUST` обязателен: список приложений передаётся секретом, а секреты не
+входят в ключ кэша Docker — без него Docker переиспользует старый слой и
+«обновление» ничего не изменит.
 
 ```bash
 cd ~/frappe_docker
 docker build --build-arg=FRAPPE_PATH=https://github.com/frappe/frappe \
   --build-arg=FRAPPE_BRANCH=version-16 \
+  --build-arg=CACHE_BUST=$(date +%s) \
   --secret=id=apps_json,src=/home/deploy/apps.json \
   --tag=powerpro/erp:latest --file=images/layered/Containerfile .
 
-docker compose --project-name erp -f ~/gitops/erp.yaml up -d --force-recreate
-docker compose --project-name erp -f ~/gitops/erp.yaml exec backend \
-  bench --site dev.erp.powerprofessor.co migrate
-# убедиться, что всё в порядке, и только потом:
-docker compose --project-name erp -f ~/gitops/erp.yaml exec backend \
-  bench --site erp.powerprofessor.co migrate
+C="docker compose --project-name erp -f /home/deploy/gitops/erp.yaml"
+$C up -d --force-recreate
+sleep 30
+$C exec -T backend bench --site dev.erp.powerprofessor.co migrate
+# проверить dev в браузере, и только потом:
+$C exec -T backend bench --site erp.powerprofessor.co migrate
 ```
 
+`bench migrate` синхронизирует DocType, кастомизации из `powerpro/powerpro/custom/`
+и запускает `after_migrate` (роли, типы работ, пункты в боковом меню).
+
 **Всегда сначала dev, потом прод.**
+
+Если менялся **список приложений** в `apps.json` (добавили/убрали приложение),
+дополнительно перед `up` удалить том `frappe_docker_sites` — в нём лежит копия
+`apps.txt`, снятая при первом запуске, и без этого новый список не подхватится.
+При простой правке кода `powerpro` этого делать не нужно.
 
 ## 10. Портейнер для глаз (по желанию)
 

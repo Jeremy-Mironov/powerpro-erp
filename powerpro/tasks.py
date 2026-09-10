@@ -3,8 +3,8 @@ from frappe.utils import today
 
 
 def daily():
-    """Housekeeping: jobs past warranty leave 'Under warranty'."""
+    """Housekeeping: jobs past their warranty date leave 'Under warranty'."""
     for name in frappe.get_all(
-        "Job", filters={"status": "Under warranty", "warranty_until": ("<", today())}, pluck="name"
+        "Project", filters={"pp_status": "Under warranty", "pp_warranty_until": ("<", today())}, pluck="name"
     ):
-        frappe.db.set_value("Job", name, "status", "Closed", update_modified=False)
+        frappe.db.set_value("Project", name, {"pp_status": "Closed", "status": "Completed"}, update_modified=False)

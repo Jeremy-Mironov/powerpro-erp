@@ -1,14 +1,15 @@
 {
  "actions": [],
  "allow_rename": 0,
- "creation": "2026-09-09 12:00:00.000000",
+ "creation": "2026-09-10 20:00:00.000000",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
   "s_main",
-  "job",
+  "project",
+  "title",
   "customer",
   "property",
   "status",
@@ -31,6 +32,11 @@
   "s_notes",
   "notes",
   "s_sys",
+  "starts_at",
+  "ends_at",
+  "c3",
+  "latitude",
+  "longitude",
   "jobber_visit_id",
   "is_mirror"
  ],
@@ -48,13 +54,21 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "job",
+   "fieldname": "project",
    "fieldtype": "Link",
    "label": "Job",
-   "options": "Job",
+   "options": "Project",
    "reqd": 1,
    "in_list_view": 1,
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "read_only": 1,
+   "description": "Auto: customer · job title"
   },
   {
    "fieldname": "customer",
@@ -62,14 +76,16 @@
    "label": "Customer",
    "options": "Customer",
    "read_only": 1,
-   "in_list_view": 1
+   "in_list_view": 1,
+   "search_index": 1
   },
   {
    "fieldname": "property",
    "fieldtype": "Link",
    "label": "Property",
    "options": "Property",
-   "read_only": 1
+   "read_only": 1,
+   "search_index": 1
   },
   {
    "fieldname": "status",
@@ -107,7 +123,8 @@
    "fieldname": "van",
    "fieldtype": "Link",
    "label": "Van",
-   "options": "Van"
+   "options": "Van",
+   "search_index": 1
   },
   {
    "fieldname": "warehouse",
@@ -184,17 +201,51 @@
    "collapsible": 1
   },
   {
+   "fieldname": "starts_at",
+   "fieldtype": "Datetime",
+   "label": "Starts at",
+   "read_only": 1,
+   "description": "Auto from date + window; drives the Calendar view"
+  },
+  {
+   "fieldname": "ends_at",
+   "fieldtype": "Datetime",
+   "label": "Ends at",
+   "read_only": 1
+  },
+  {
+   "fieldname": "c3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "latitude",
+   "fieldtype": "Float",
+   "label": "Latitude",
+   "precision": "6",
+   "read_only": 1,
+   "description": "Copied from the property; drives the Map view"
+  },
+  {
+   "fieldname": "longitude",
+   "fieldtype": "Float",
+   "label": "Longitude",
+   "precision": "6",
+   "read_only": 1
+  },
+  {
    "fieldname": "jobber_visit_id",
    "fieldtype": "Data",
    "label": "Jobber visit ID",
    "unique": 1,
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "is_mirror",
    "fieldtype": "Check",
    "label": "Mirrored from Jobber (read-only)",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -204,7 +255,7 @@
    "link_fieldname": "visit"
   }
  ],
- "modified": "2026-09-09 12:00:00.000000",
+ "modified": "2026-09-10 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "PowerPro",
  "name": "Visit",
@@ -308,7 +359,7 @@
  "track_changes": 1,
  "autoname": "naming_series:",
  "naming_rule": "By \"Naming Series\" field",
- "title_field": "job",
+ "title_field": "title",
  "show_title_field_in_link": 1,
- "search_fields": "job,customer,visit_date"
+ "search_fields": "project,customer,visit_date"
 }

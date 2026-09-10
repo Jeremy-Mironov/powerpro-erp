@@ -1,104 +1,114 @@
 # PowerPro — field service layer for ERPNext
 
 Custom Frappe app for Power Professor LLC (Portland OR / Vancouver WA electricians).
-It adds the field-service objects ERPNext lacks and wires them to ERPNext's own
-Stock, Buying, Selling, Projects and HR modules. Everything that ERPNext already
-has (Customer, Item, Warehouse, Quotation, Sales Invoice, Purchase Order,
-Timesheet, Project, Employee, Vehicle) is used as-is.
 
-Requires: Frappe 15/16 + ERPNext 15/16.
+Design rule (decided 10.09.2026): **ERPNext's own modules do their own jobs.**
+The app does not add a "PowerPro" section to the UI. It extends the standard
+objects and puts its own DocTypes inside ERPNext's Projects / CRM / Stock sidebars.
+
+- **A Job is an ERPNext `Project`.** Every ERPNext transaction (Sales Invoice,
+  Stock Entry, Purchase Invoice, Timesheet, Sales Order) already links to a
+  Project, and Project already computes material cost, labor cost, purchases,
+  billed amount and gross margin. We add the field-service fields on top.
+- What ERPNext lacks (property, visit, permit, change order, call) is added as
+  DocTypes that link to the Project.
+
+Requires: Frappe 16 + ERPNext 16 (built and tested on 16.33 / 16.34).
+
+## Jobber → ERPNext
+
+| Jobber | ERPNext | Sidebar |
+|---|---|---|
+| Client | Customer | CRM / Selling |
+| Property | **Property** (ours: panel, utility, permit jurisdiction, access, coordinates) | CRM |
+| Request | **Service Request** (ours) | CRM |
+| Quote | Quotation + approval / signature fields | Selling |
+| **Job** | **Project** + `pp_*` fields (property, job status, lead tech, approval, warranty, permit) | Projects |
+| Visit | **Visit** (ours: crew, van = warehouse, window, check-in/out, signature) | Projects, Calendar view |
+| — | **Change Order**, **Permit** (+ inspections), **Job Photo** | Projects |
+| Invoice | Sales Invoice | Invoicing |
+| Phone call | **Call** (ours; Twilio via n8n) | CRM |
+
+Map view: Property, Project and Visit carry `latitude` / `longitude` (named without
+the `pp_` prefix on purpose — Frappe's built-in Map view looks for those names).
+Kanban: make a board on `Project.pp_status`. Calendar: Visit.
 
 ## What is in the box
 
-| DocType | Purpose |
-|---|---|
-| **PowerPro Settings** (single) | approval threshold, warranty years, fees, SLAs, telephony numbers |
-| **Property** | the place work is done; panel, utility, permit jurisdiction, access |
-| **Service Request** | intake: first contact → booking; links the Call that started it |
-| **Job** | the unit of work: status lifecycle, approvals, permit, warranty, job costing |
-| **Visit** (+ Visit Crew) | one trip: crew, van (= warehouse), check-in/out, signature |
-| **Job Photo** | tagged photos (before / after / panel / inspection…) |
-| **Change Order** | written customer approval before work continues |
-| **Permit** (+ Permit Inspection) | permit and its inspections |
-| **Call** | one Twilio call, matched to Customer / Service Request by phone |
+```
+powerpro/
+  hooks.py                      doc_events on Project, Quotation, Customer, Contact, Sales Invoice, Payment Entry
+  install.py                    roles, Project Types, sidebar items, cleanup of v1-v3 artifacts (idempotent)
+  overrides/project.py          the Job rules on Project
+  overrides/quotation.py        owner approval on quotations
+  api.py                        endpoints for n8n (upsert, log_call, log_sms)
+  utils.py                      E.164, customer-by-phone, mirror guard
+  tasks.py                      daily: Under warranty -> Closed
+  public/js/project.js          Project form: buttons (Visit, Change Order, Photo, Permit, Sales Invoice), owner approval
+  public/js/project_list.js     Project list: job status indicator and default filter
+  powerpro/custom/*.json        customizations of standard DocTypes (fields, layout, permissions) — synced on migrate
+  powerpro/doctype/*            PowerPro Settings, Property, Service Request, Visit (+Crew), Van, Job Photo,
+                                Change Order, Permit (+Inspection), Call
+  fixtures/role.json            PP Owner, PP Dispatcher, PP Estimator, PP Field Tech, PP Shop, PP Bookkeeper, PP Integration
+deploy/                         apps.json + step-by-step install on frappe_docker
+```
 
-Custom fields on standard DocTypes (all prefixed `pp_`):
+### Project customizations (`powerpro/custom/project.json`)
 
-- `pp_job` on Stock Entry, Material Request, Purchase Order, Purchase Receipt,
-  Purchase Invoice, Sales Invoice, Timesheet, Project — **this is job costing**.
-- `pp_jobber_id` + `pp_is_mirror` on Customer, Address, Contact, Quotation, Sales
-  Invoice — idempotent mirroring from Jobber; mirrored records are read-only for
-  humans (`powerpro.utils.guard_mirror`).
-- `pp_phone_e164` on Contact and Customer — the key calls and SMS are matched on.
-- Quotation: owner approval, customer approval/signature, lost reason, links to
-  Service Request and Property.
-- Vehicle: `pp_warehouse` (van stock). Employee: license number/state/expiry.
+- 27 custom fields, all `pp_*` except `latitude` / `longitude`.
+- Form layout via a `field_order` property setter: first tab is the job (title,
+  status, type, customer, property, lead tech, schedule, scope, approval & permit,
+  origin, location); ERPNext's Costing / Progress / More Info / Connections tabs stay.
+- `naming_series` = `JOB-.YYYY.-`; ERPNext `status` is read-only and follows `pp_status`.
+- Money fields (estimated, costing, purchases, consumed material, billed, margin,
+  quoted, paid) are **permlevel 2**: PP Owner / Estimator / Integration write,
+  Bookkeeper and Projects Manager read, techs and dispatch don't see them.
+- Connections tab: Visits, Photos, Change Orders, Permits, Calls.
 
-Roles (created on install): `PP Owner`, `PP Dispatcher`, `PP Estimator`,
-`PP Field Tech`, `PP Shop`, `PP Bookkeeper`, `PP Integration` (API only).
-Give people the matching ERPNext roles too (Stock User, Sales User, Accounts User…).
-
-Report: **Job Costing** (quoted vs invoiced vs materials / direct purchases / labor).
+Custom DocPerm records replace ERPNext's standard permission rows for Project, so
+`project.json` carries the full set (ERPNext's rows + ours).
 
 ## Business rules implemented
 
-- Job / Quotation above `owner_approval_threshold` (default $5,000) or on a
-  commercial property needs owner approval; a PP Owner saving it approves it.
-- A Job cannot go *In progress* without that approval.
-- Completing a Job stamps `completed_on` and `warranty_until` (+5 years).
+- Project / Quotation above `owner_approval_threshold` (default $5,000) or of type
+  *Commercial project* (Quotation: on a commercial property) needs owner approval; a
+  PP Owner saving it approves it.
+- A Project cannot go *In progress* without that approval.
+- Completing a Project stamps `pp_completed_on` and `pp_warranty_until` (+5 years).
+- Submitting a Sales Invoice / Payment Entry for the Project moves it
+  Complete → Invoiced → Paid (and back on cancel); `pp_paid_total` is kept current.
 - A Change Order is *Approved* only with a date **and** written evidence.
-- Permit with a passed Final inspection becomes *Final* and writes back to the Job.
+- Permit with a passed Final inspection becomes *Final* and writes back to the Project.
 - Missed inbound call (No answer / Voicemail) opens a Service Request unless an open
   one for that phone exists within `missed_call_dedupe_days`.
-- Submitting Stock Entry / Purchase Invoice / Timesheet / Sales Invoice / Payment
-  Entry with a `pp_job` re-computes the Job's actuals in the background.
+- Records mirrored from Jobber (`is_mirror` / `pp_is_mirror`) are read-only for
+  humans; PP Integration and System Manager may write.
 
 ## API for n8n
 
-Create a user with role **PP Integration** (plus Sales User / Stock User for
-mirrored ERPNext docs), generate API key + secret, call with header
-`Authorization: token KEY:SECRET`.
+Create a user with role **PP Integration** (plus Sales User / Stock User /
+Projects User for mirrored ERPNext docs), generate API key + secret, call with
+header `Authorization: token KEY:SECRET`.
 
-```
-POST /api/method/powerpro.api.log_call
-  {call_sid, direction, status, received_at, from_number, to_number,
-   tracking_number, source_label, duration_sec, recording_url, transcript, raw}
+| Method | Purpose |
+|---|---|
+| `POST /api/method/powerpro.api.upsert` | `doctype, key_field, key_value, values` — idempotent create-or-update by external id |
+| `POST /api/method/powerpro.api.log_call` | one Twilio call → `Call` (matched to Customer by phone; missed call → Service Request) |
+| `POST /api/method/powerpro.api.log_sms` | one SMS → `Communication` on the Service Request / Customer timeline |
+| standard `/api/resource/<DocType>` | everything else |
 
-POST /api/method/powerpro.api.log_sms
-  {sid, direction, from_number, to_number, body, received_at}
+## Conventions
 
-POST /api/method/powerpro.api.upsert
-  {doctype, key_field, key_value, values}      # e.g. Customer by pp_jobber_id
-```
+- Custom fields on standard DocTypes: `pp_` prefix, module `PowerPro`, shipped in
+  `powerpro/custom/<doctype>.json` with `sync_on_migrate: 1`.
+- Our own DocTypes: module `PowerPro`, naming series `REQ- / VIS- / CO- / PRM-`,
+  `PROP-#####`, `PHT-#####`; Project uses `JOB-.YYYY.-`.
+- Never edit ERPNext or Frappe sources; never customize through the UI on prod —
+  change the files here, `git push`, rebuild, `bench migrate` dev, then prod.
+- Money on Project lives at permlevel 2; internal notes too.
 
-Standard REST (`/api/resource/<DocType>`) works for everything else.
+## Upgrading from v1–v3 (separate `Job` DocType)
 
-## Install on a bench
-
-```bash
-bench get-app https://github.com/<you>/powerpro-erp
-bench --site erp.powerprofessor.co install-app powerpro
-bench --site erp.powerprofessor.co migrate
-```
-
-Developer mode on the dev site (`bench --site dev.erp.powerprofessor.co set-config developer_mode 1`)
-lets you change DocTypes in the UI and have them exported back into this app.
-
-## Layout
-
-```
-powerpro/
-  hooks.py            events, fixtures, scheduler
-  install.py          roles
-  utils.py            phone normalisation, customer lookup, mirror guard
-  costing.py          refresh_job_costs
-  api.py              n8n endpoints
-  tasks.py            daily housekeeping
-  overrides/          hooks on standard DocTypes (Contact, Customer, Quotation, costing)
-  fixtures/           role.json, custom_field.json
-  powerpro/           the "PowerPro" module: doctype/, report/, workspace/
-```
-
-Conventions: every custom field is `pp_*`; every DocType has `jobber_*_id` +
-`is_mirror` if it can be mirrored; nothing is deleted on uninstall of data —
-`bench --site <site> uninstall-app powerpro` drops the tables, so back up first.
+`after_migrate` removes the old `PowerPro` workspace / sidebar / desktop icon, the
+`Job Costing` report, the `pp_job` custom fields and the `Job` DocType if they
+exist. Sites created with v1–v3 hold no data, so a plain `bench migrate` is enough.

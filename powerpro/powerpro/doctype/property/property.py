@@ -1,4 +1,3 @@
-import frappe
 from frappe.model.document import Document
 from powerpro.utils import guard_mirror
 

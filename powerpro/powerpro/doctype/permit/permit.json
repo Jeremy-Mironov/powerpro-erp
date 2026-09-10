@@ -1,14 +1,14 @@
 {
  "actions": [],
  "allow_rename": 0,
- "creation": "2026-09-09 12:00:00.000000",
+ "creation": "2026-09-10 20:00:00.000000",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
   "s_main",
-  "job",
+  "project",
   "property",
   "jurisdiction",
   "permit_type",
@@ -39,20 +39,22 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "job",
+   "fieldname": "project",
    "fieldtype": "Link",
    "label": "Job",
-   "options": "Job",
+   "options": "Project",
    "reqd": 1,
    "in_list_view": 1,
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "search_index": 1
   },
   {
    "fieldname": "property",
    "fieldtype": "Link",
    "label": "Property",
    "options": "Property",
-   "read_only": 1
+   "read_only": 1,
+   "search_index": 1
   },
   {
    "fieldname": "jurisdiction",
@@ -138,7 +140,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-09 12:00:00.000000",
+ "modified": "2026-09-10 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "PowerPro",
  "name": "Permit",
@@ -242,5 +244,5 @@
  "track_changes": 1,
  "autoname": "naming_series:",
  "naming_rule": "By \"Naming Series\" field",
- "search_fields": "job,permit_no"
+ "search_fields": "project,permit_no"
 }

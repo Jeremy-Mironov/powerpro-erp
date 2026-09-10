@@ -13,5 +13,5 @@ class ServiceRequest(Document):
             frappe.throw(_("Please give a reason for {0}").format(self.status))
         if self.status == "Contacted" and not self.first_response_at:
             self.first_response_at = now_datetime()
-        if self.job and self.status not in ("Converted",):
+        if self.project and self.status != "Converted":
             self.status = "Converted"

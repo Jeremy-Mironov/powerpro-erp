@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 0,
- "creation": "2026-09-09 12:00:00.000000",
+ "creation": "2026-09-10 20:00:00.000000",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -31,8 +31,8 @@
   "access_notes",
   "gate_code",
   "c3",
-  "geo_lat",
-  "geo_lng",
+  "latitude",
+  "longitude",
   "s_sys",
   "jobber_property_id",
   "is_mirror"
@@ -49,7 +49,8 @@
    "options": "Customer",
    "reqd": 1,
    "in_list_view": 1,
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "search_index": 1
   },
   {
    "fieldname": "title",
@@ -181,13 +182,14 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "geo_lat",
+   "fieldname": "latitude",
    "fieldtype": "Float",
    "label": "Latitude",
-   "precision": "6"
+   "precision": "6",
+   "description": "With longitude this puts the property on the Map view"
   },
   {
-   "fieldname": "geo_lng",
+   "fieldname": "longitude",
    "fieldtype": "Float",
    "label": "Longitude",
    "precision": "6"
@@ -203,31 +205,41 @@
    "fieldtype": "Data",
    "label": "Jobber property ID",
    "unique": 1,
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "is_mirror",
    "fieldtype": "Check",
    "label": "Mirrored from Jobber (read-only)",
-   "read_only": 1
+   "read_only": 1,
+   "no_copy": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [
   {
-   "link_doctype": "Job",
-   "link_fieldname": "property"
+   "link_doctype": "Project",
+   "link_fieldname": "pp_property",
+   "group": "Jobs"
   },
   {
    "link_doctype": "Service Request",
-   "link_fieldname": "property"
+   "link_fieldname": "property",
+   "group": "Intake"
   },
   {
    "link_doctype": "Visit",
-   "link_fieldname": "property"
+   "link_fieldname": "property",
+   "group": "Jobs"
+  },
+  {
+   "link_doctype": "Quotation",
+   "link_fieldname": "pp_property",
+   "group": "Sales"
   }
  ],
- "modified": "2026-09-09 12:00:00.000000",
+ "modified": "2026-09-10 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "PowerPro",
  "name": "Property",
@@ -373,6 +385,14 @@
    "role": "PP Field Tech",
    "read": 1,
    "write": 0,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 1
+  },
+  {
+   "role": "PP Integration",
+   "read": 1,
+   "write": 1,
    "create": 0,
    "delete": 0,
    "permlevel": 1
