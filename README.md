@@ -77,11 +77,11 @@ Standard REST (`/api/resource/<DocType>`) works for everything else.
 
 ```bash
 bench get-app https://github.com/<you>/powerpro-erp
-bench --site erp.powerpro.info install-app powerpro
-bench --site erp.powerpro.info migrate
+bench --site erp.powerprofessor.co install-app powerpro
+bench --site erp.powerprofessor.co migrate
 ```
 
-Developer mode on the dev site (`bench --site dev.erp.powerpro.info set-config developer_mode 1`)
+Developer mode on the dev site (`bench --site dev.erp.powerprofessor.co set-config developer_mode 1`)
 lets you change DocTypes in the UI and have them exported back into this app.
 
 ## Layout
