@@ -1,0 +1,32 @@
+{
+ "doctype": "Report",
+ "name": "Job Costing",
+ "report_name": "Job Costing",
+ "ref_doctype": "Job",
+ "report_type": "Script Report",
+ "is_standard": "Yes",
+ "module": "PowerPro",
+ "disabled": 0,
+ "add_total_row": 1,
+ "columns": [],
+ "filters": [],
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "PP Owner"
+  },
+  {
+   "role": "PP Estimator"
+  },
+  {
+   "role": "PP Bookkeeper"
+  }
+ ],
+ "creation": "2026-09-09 12:00:00.000000",
+ "modified": "2026-09-09 12:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "docstatus": 0
+}

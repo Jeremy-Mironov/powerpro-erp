@@ -1,0 +1,246 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-09-09 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "s_main",
+  "job",
+  "property",
+  "jurisdiction",
+  "permit_type",
+  "c1",
+  "status",
+  "permit_no",
+  "fee",
+  "s_dates",
+  "applied_on",
+  "issued_on",
+  "c2",
+  "expires_on",
+  "finaled_on",
+  "s_insp",
+  "inspections"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "PRM-.YYYY.-",
+   "default": "PRM-.YYYY.-",
+   "hidden": 1
+  },
+  {
+   "fieldname": "s_main",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "job",
+   "fieldtype": "Link",
+   "label": "Job",
+   "options": "Job",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "property",
+   "fieldtype": "Link",
+   "label": "Property",
+   "options": "Property",
+   "read_only": 1
+  },
+  {
+   "fieldname": "jurisdiction",
+   "fieldtype": "Select",
+   "label": "Jurisdiction",
+   "options": "\nPortland (PP&D)\nMultnomah County\nWashington County\nClackamas County\nCity of Vancouver\nClark County (WA L&I)\nOther",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "permit_type",
+   "fieldtype": "Select",
+   "label": "Permit type",
+   "options": "Electrical\nService change\nEV charger\nSolar / battery\nGenerator\nOther",
+   "default": "Electrical"
+  },
+  {
+   "fieldname": "c1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Not applied\nApplied\nIssued\nInspection scheduled\nCorrections\nFinal\nExpired\nNot required",
+   "default": "Not applied",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "permit_no",
+   "fieldtype": "Data",
+   "label": "Permit number",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "fee",
+   "fieldtype": "Currency",
+   "label": "Fee"
+  },
+  {
+   "fieldname": "s_dates",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "applied_on",
+   "fieldtype": "Date",
+   "label": "Applied on"
+  },
+  {
+   "fieldname": "issued_on",
+   "fieldtype": "Date",
+   "label": "Issued on"
+  },
+  {
+   "fieldname": "c2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Date",
+   "label": "Expires on"
+  },
+  {
+   "fieldname": "finaled_on",
+   "fieldtype": "Date",
+   "label": "Final on",
+   "read_only": 1
+  },
+  {
+   "fieldname": "s_insp",
+   "fieldtype": "Section Break",
+   "label": "Inspections"
+  },
+  {
+   "fieldname": "inspections",
+   "fieldtype": "Table",
+   "label": "Inspections",
+   "options": "Permit Inspection"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-09 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "PowerPro",
+ "name": "Permit",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Owner",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Dispatcher",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Estimator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Field Tech",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Bookkeeper",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Integration",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "naming_series:",
+ "naming_rule": "By \"Naming Series\" field",
+ "search_fields": "job,permit_no"
+}
