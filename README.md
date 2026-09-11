@@ -15,6 +15,31 @@ objects and puts its own DocTypes inside ERPNext's Projects / CRM / Stock sideba
 
 Requires: Frappe 16 + ERPNext 16 (built and tested on 16.33 / 16.34).
 
+## The Field section (v5)
+
+A **Field** sidebar (desktop icon "Field") is the crew's and dispatcher's menu, in the
+order of a working day, Jobber-style: Home · Schedule (visit calendar) · Dispatch
+(kanban on visit status) · Map · Clients · Properties · Requests · Quotes · Projects ·
+Visits · Invoices · Expenses · Timesheets · More (Photos, Notes, Permits, Change
+Orders, Calls, Van stock, Vans, Checklist templates, Settings). It links to the
+standard objects only; ERPNext's own sections stay for the office.
+
+- **Field Note** — one note object for Customer / Property / Project / Visit with a
+  type, a visibility level (Everyone / Office / Owner), pinning and a photo. Forms
+  show a "Field notes" panel with the notes inherited down the chain
+  (customer → property → project → visit), filtered by the viewer's role
+  (`permission_query_conditions` + `has_permission`).
+- **Instructions for crew** (`pp_instructions` on Project) are copied onto every visit.
+- **Geocoding** — properties are geocoded on save through Google (key in PowerPro
+  Settings, a Password field); county → ERPNext Territory (created on demand under
+  the state); coordinates flow to projects and visits → Map views.
+- **Visit** — GPS at check-in / check-out (phone browser), checklist from templates
+  per project type (seeded: Service call, Panel upgrade, EV charger, Safety check),
+  required items block "Done", buttons Navigate / Issue materials / Transfer to van.
+- **Line items** of a project = its Sales Order (made from the quotation).
+- **Field Expense** — receipt photo from the field; office approves and books it as a
+  Purchase Invoice against the project (feeds job costing).
+
 ## Jobber → ERPNext
 
 | Jobber | ERPNext | Sidebar |
@@ -47,8 +72,13 @@ powerpro/
   public/js/project.js          Project form: buttons (Visit, Change Order, Photo, Permit, Sales Invoice), owner approval
   public/js/project_list.js     Project list: job status indicator and default filter
   powerpro/custom/*.json        customizations of standard DocTypes (fields, layout, permissions) — synced on migrate
-  powerpro/doctype/*            PowerPro Settings, Property, Service Request, Visit (+Crew), Van, Job Photo,
-                                Change Order, Permit (+Inspection), Call
+  powerpro/doctype/*            PowerPro Settings, Property, Service Request, Visit (+Crew, +Checklist), Van, Job Photo,
+                                Change Order, Permit (+Inspection), Call, Field Note, Field Expense, Visit Checklist Template
+  powerpro/workspace/field      Home page of the Field section (shortcuts with counts)
+  workspace_sidebar/field.json  the Field sidebar;  desktop_icon/field.json  its icon
+  geo.py                        Google geocoding + county -> Territory
+  notes.py                      inherited field notes for forms
+  public/js/notes.js            the notes panel (app_include_js);  customer.js  client card buttons
   fixtures/role.json            PP Owner, PP Dispatcher, PP Estimator, PP Field Tech, PP Shop, PP Bookkeeper, PP Integration
 deploy/                         apps.json + step-by-step install on frappe_docker
 ```

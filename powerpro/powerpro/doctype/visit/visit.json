@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 0,
- "creation": "2026-09-10 20:00:00.000000",
+ "creation": "2026-09-11 09:00:00.000000",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -19,8 +19,13 @@
   "window_end",
   "van",
   "warehouse",
+  "s_instr",
+  "instructions",
   "s_crew",
   "crew",
+  "s_check",
+  "checklist_template",
+  "checklist",
   "s_time",
   "check_in",
   "check_out",
@@ -29,6 +34,12 @@
   "customer_signature",
   "signed_by",
   "signed_at",
+  "s_gps",
+  "checkin_lat",
+  "checkin_lng",
+  "c4",
+  "checkout_lat",
+  "checkout_lng",
   "s_notes",
   "notes",
   "s_sys",
@@ -134,6 +145,18 @@
    "read_only": 1
   },
   {
+   "fieldname": "s_instr",
+   "fieldtype": "Section Break",
+   "label": "Instructions"
+  },
+  {
+   "fieldname": "instructions",
+   "fieldtype": "Small Text",
+   "label": "Instructions for crew",
+   "read_only": 1,
+   "description": "From the project; edit them on the project"
+  },
+  {
    "fieldname": "s_crew",
    "fieldtype": "Section Break",
    "label": "Crew"
@@ -143,6 +166,23 @@
    "fieldtype": "Table",
    "label": "Crew",
    "options": "Visit Crew"
+  },
+  {
+   "fieldname": "s_check",
+   "fieldtype": "Section Break",
+   "label": "Checklist"
+  },
+  {
+   "fieldname": "checklist_template",
+   "fieldtype": "Link",
+   "label": "Checklist template",
+   "options": "Visit Checklist Template"
+  },
+  {
+   "fieldname": "checklist",
+   "fieldtype": "Table",
+   "label": "Checklist",
+   "options": "Visit Checklist Item"
   },
   {
    "fieldname": "s_time",
@@ -183,6 +223,44 @@
    "fieldname": "signed_at",
    "fieldtype": "Datetime",
    "label": "Signed at",
+   "read_only": 1
+  },
+  {
+   "fieldname": "s_gps",
+   "fieldtype": "Section Break",
+   "label": "GPS",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "checkin_lat",
+   "fieldtype": "Float",
+   "label": "Check-in latitude",
+   "precision": "6",
+   "read_only": 1
+  },
+  {
+   "fieldname": "checkin_lng",
+   "fieldtype": "Float",
+   "label": "Check-in longitude",
+   "precision": "6",
+   "read_only": 1
+  },
+  {
+   "fieldname": "c4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "checkout_lat",
+   "fieldtype": "Float",
+   "label": "Check-out latitude",
+   "precision": "6",
+   "read_only": 1
+  },
+  {
+   "fieldname": "checkout_lng",
+   "fieldtype": "Float",
+   "label": "Check-out longitude",
+   "precision": "6",
    "read_only": 1
   },
   {
@@ -253,9 +331,17 @@
   {
    "link_doctype": "Job Photo",
    "link_fieldname": "visit"
+  },
+  {
+   "link_doctype": "Field Note",
+   "link_fieldname": "visit"
+  },
+  {
+   "link_doctype": "Field Expense",
+   "link_fieldname": "visit"
   }
  ],
- "modified": "2026-09-10 20:00:00.000000",
+ "modified": "2026-09-11 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "PowerPro",
  "name": "Visit",

@@ -1,0 +1,278 @@
+{
+ "doctype": "Workspace",
+ "creation": "2026-09-11 09:00:00.000000",
+ "modified": "2026-09-11 09:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "docstatus": 0,
+ "idx": 0,
+ "name": "Field",
+ "label": "Field",
+ "title": "Field",
+ "module": "PowerPro",
+ "app": "powerpro",
+ "public": 1,
+ "is_hidden": 0,
+ "for_user": "",
+ "parent_page": "",
+ "icon": "tool",
+ "indicator_color": "",
+ "sequence_id": 1.0,
+ "content": "[{\"id\": \"pp_hdr\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Field \\u2014 today</b></span>\", \"col\": 12}}, {\"id\": \"pp_s0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Visits today\", \"col\": 3}}, {\"id\": \"pp_s1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"New requests\", \"col\": 3}}, {\"id\": \"pp_s2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Projects in progress\", \"col\": 3}}, {\"id\": \"pp_s3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Scheduled projects\", \"col\": 3}}, {\"id\": \"pp_s4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Open quotes\", \"col\": 3}}, {\"id\": \"pp_s5\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Unpaid invoices\", \"col\": 3}}, {\"id\": \"pp_s6\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Expenses to approve\", \"col\": 3}}, {\"id\": \"pp_s7\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Permits waiting\", \"col\": 3}}, {\"id\": \"pp_sp\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"pp_c1\", \"type\": \"card\", \"data\": {\"card_name\": \"Work\", \"col\": 4}}, {\"id\": \"pp_c2\", \"type\": \"card\", \"data\": {\"card_name\": \"Clients\", \"col\": 4}}, {\"id\": \"pp_c3\", \"type\": \"card\", \"data\": {\"card_name\": \"Money & stock\", \"col\": 4}}]",
+ "shortcuts": [
+  {
+   "label": "Visits today",
+   "link_to": "Visit",
+   "type": "DocType",
+   "color": "Blue",
+   "stats_filter": "{\"visit_date\": [\"Timespan\", \"today\"], \"status\": [\"not in\", [\"Done\", \"Cancelled\"]]}"
+  },
+  {
+   "label": "New requests",
+   "link_to": "Service Request",
+   "type": "DocType",
+   "color": "Red",
+   "stats_filter": "{\"status\": \"New\"}"
+  },
+  {
+   "label": "Projects in progress",
+   "link_to": "Project",
+   "type": "DocType",
+   "color": "Orange",
+   "stats_filter": "{\"pp_status\": \"In progress\"}"
+  },
+  {
+   "label": "Scheduled projects",
+   "link_to": "Project",
+   "type": "DocType",
+   "color": "Grey",
+   "stats_filter": "{\"pp_status\": \"Scheduled\"}"
+  },
+  {
+   "label": "Open quotes",
+   "link_to": "Quotation",
+   "type": "DocType",
+   "color": "Green",
+   "stats_filter": "{\"status\": \"Open\"}"
+  },
+  {
+   "label": "Unpaid invoices",
+   "link_to": "Sales Invoice",
+   "type": "DocType",
+   "color": "Yellow",
+   "stats_filter": "{\"status\": [\"in\", [\"Unpaid\", \"Overdue\", \"Partly Paid\"]]}"
+  },
+  {
+   "label": "Expenses to approve",
+   "link_to": "Field Expense",
+   "type": "DocType",
+   "color": "Purple",
+   "stats_filter": "{\"status\": \"Submitted\"}"
+  },
+  {
+   "label": "Permits waiting",
+   "link_to": "Permit",
+   "type": "DocType",
+   "color": "Cyan",
+   "stats_filter": "{\"status\": [\"in\", [\"Applied\", \"Inspection scheduled\", \"Corrections\"]]}"
+  }
+ ],
+ "links": [
+  {
+   "type": "Card Break",
+   "label": "Work",
+   "link_count": 7,
+   "hidden": 0,
+   "onboard": 0
+  },
+  {
+   "type": "Link",
+   "label": "Project",
+   "link_to": "Project",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Visit",
+   "link_to": "Visit",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Job Photo",
+   "link_to": "Job Photo",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Field Note",
+   "link_to": "Field Note",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Permit",
+   "link_to": "Permit",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Change Order",
+   "link_to": "Change Order",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Timesheet",
+   "link_to": "Timesheet",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Card Break",
+   "label": "Clients",
+   "link_count": 5,
+   "hidden": 0,
+   "onboard": 0
+  },
+  {
+   "type": "Link",
+   "label": "Customer",
+   "link_to": "Customer",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Property",
+   "link_to": "Property",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Service Request",
+   "link_to": "Service Request",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Quotation",
+   "link_to": "Quotation",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Call",
+   "link_to": "Call",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Card Break",
+   "label": "Money & stock",
+   "link_count": 5,
+   "hidden": 0,
+   "onboard": 0
+  },
+  {
+   "type": "Link",
+   "label": "Sales Invoice",
+   "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Field Expense",
+   "link_to": "Field Expense",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Stock Entry",
+   "link_to": "Stock Entry",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Van",
+   "link_to": "Van",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "PowerPro Settings",
+   "link_to": "PowerPro Settings",
+   "link_type": "DocType",
+   "hidden": 0,
+   "onboard": 0,
+   "is_query_report": 0,
+   "dependencies": ""
+  }
+ ],
+ "charts": [],
+ "number_cards": [],
+ "custom_blocks": [],
+ "quick_lists": [],
+ "roles": []
+}

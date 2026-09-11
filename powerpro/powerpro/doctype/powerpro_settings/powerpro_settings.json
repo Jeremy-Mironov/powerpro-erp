@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 0,
- "creation": "2026-09-10 20:00:00.000000",
+ "creation": "2026-09-11 09:00:00.000000",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -26,8 +26,13 @@
   "missed_call_dedupe_days",
   "s_visits",
   "default_window_start",
+  "default_window_end",
   "c4",
-  "default_window_end"
+  "shop_warehouse",
+  "s_geo",
+  "google_maps_api_key",
+  "c5",
+  "geocode_region"
  ],
  "fields": [
   {
@@ -132,7 +137,7 @@
   {
    "fieldname": "s_visits",
    "fieldtype": "Section Break",
-   "label": "Visits"
+   "label": "Visits & stock"
   },
   {
    "fieldname": "default_window_start",
@@ -141,19 +146,47 @@
    "default": "08:00:00"
   },
   {
-   "fieldname": "c4",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "default_window_end",
    "fieldtype": "Time",
    "label": "Default visit window end",
    "default": "17:00:00"
+  },
+  {
+   "fieldname": "c4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shop_warehouse",
+   "fieldtype": "Link",
+   "label": "Shop warehouse",
+   "options": "Warehouse",
+   "description": "Source for van transfers"
+  },
+  {
+   "fieldname": "s_geo",
+   "fieldtype": "Section Break",
+   "label": "Maps"
+  },
+  {
+   "fieldname": "google_maps_api_key",
+   "fieldtype": "Password",
+   "label": "Google Maps API key (Geocoding API)",
+   "description": "Enter here, never in chat. Properties are geocoded on save"
+  },
+  {
+   "fieldname": "c5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "geocode_region",
+   "fieldtype": "Data",
+   "label": "Geocoding region bias",
+   "default": "us"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-10 20:00:00.000000",
+ "modified": "2026-09-11 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "PowerPro",
  "name": "PowerPro Settings",

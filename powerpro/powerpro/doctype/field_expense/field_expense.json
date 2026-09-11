@@ -9,26 +9,32 @@
   "naming_series",
   "s_main",
   "project",
-  "customer",
-  "status",
+  "visit",
+  "expense_date",
+  "category",
   "c1",
   "amount",
-  "quotation",
-  "s_desc",
-  "description",
-  "s_appr",
-  "customer_approved_on",
-  "approved_by_name",
+  "paid_with",
+  "vendor_name",
+  "supplier",
+  "s_receipt",
+  "receipt",
   "c2",
-  "approval_evidence"
+  "description",
+  "s_status",
+  "status",
+  "submitted_by",
+  "c3",
+  "purchase_invoice",
+  "reject_reason"
  ],
  "fields": [
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
-   "options": "CO-.YYYY.-",
-   "default": "CO-.YYYY.-",
+   "options": "EXP-.YYYY.-",
+   "default": "EXP-.YYYY.-",
    "hidden": 1
   },
   {
@@ -38,7 +44,7 @@
   {
    "fieldname": "project",
    "fieldtype": "Link",
-   "label": "Job",
+   "label": "Project",
    "options": "Project",
    "reqd": 1,
    "in_list_view": 1,
@@ -46,19 +52,26 @@
    "search_index": 1
   },
   {
-   "fieldname": "customer",
+   "fieldname": "visit",
    "fieldtype": "Link",
-   "label": "Customer",
-   "options": "Customer",
-   "read_only": 1,
+   "label": "Visit",
+   "options": "Visit",
    "search_index": 1
   },
   {
-   "fieldname": "status",
+   "fieldname": "expense_date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1,
+   "default": "Today",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "category",
    "fieldtype": "Select",
-   "label": "Status",
-   "options": "Draft\nSent\nApproved\nDeclined\nVoid",
-   "default": "Draft",
+   "label": "Category",
+   "options": "Materials\nPermit fee\nFuel\nParking / tolls\nRental\nSubcontractor\nOther",
+   "default": "Materials",
    "reqd": 1,
    "in_list_view": 1,
    "in_standard_filter": 1
@@ -75,45 +88,83 @@
    "in_list_view": 1
   },
   {
-   "fieldname": "quotation",
-   "fieldtype": "Link",
-   "label": "Quotation (revised)",
-   "options": "Quotation",
-   "search_index": 1
-  },
-  {
-   "fieldname": "s_desc",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "description",
-   "fieldtype": "Text",
-   "label": "What changes and why",
+   "fieldname": "paid_with",
+   "fieldtype": "Select",
+   "label": "Paid with",
+   "options": "Company card\nCash\nPersonal card\nSupplier account",
+   "default": "Company card",
    "reqd": 1
   },
   {
-   "fieldname": "s_appr",
-   "fieldtype": "Section Break",
-   "label": "Customer approval (written, before work continues)"
-  },
-  {
-   "fieldname": "customer_approved_on",
-   "fieldtype": "Datetime",
-   "label": "Approved on"
-  },
-  {
-   "fieldname": "approved_by_name",
+   "fieldname": "vendor_name",
    "fieldtype": "Data",
-   "label": "Approved by (name)"
+   "label": "Vendor (as on receipt)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier",
+   "description": "Office picks the ERPNext supplier before booking"
+  },
+  {
+   "fieldname": "s_receipt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "receipt",
+   "fieldtype": "Attach Image",
+   "label": "Receipt photo",
+   "reqd": 1
   },
   {
    "fieldname": "c2",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "approval_evidence",
-   "fieldtype": "Attach",
-   "label": "Written approval (signed PDF, SMS screenshot, email)"
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "What was bought"
+  },
+  {
+   "fieldname": "s_status",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Submitted\nApproved\nBooked\nRejected",
+   "default": "Submitted",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "submitted_by",
+   "fieldtype": "Link",
+   "label": "Submitted by",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "c3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "purchase_invoice",
+   "fieldtype": "Link",
+   "label": "Purchase Invoice",
+   "options": "Purchase Invoice",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reject_reason",
+   "fieldtype": "Small Text",
+   "label": "Reject reason",
+   "depends_on": "eval:doc.status=='Rejected'"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -121,7 +172,7 @@
  "modified": "2026-09-11 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "PowerPro",
- "name": "Change Order",
+ "name": "Field Expense",
  "owner": "Administrator",
  "permissions": [
   {
@@ -153,7 +204,7 @@
   {
    "role": "PP Dispatcher",
    "read": 1,
-   "write": 0,
+   "write": 1,
    "create": 0,
    "delete": 0,
    "permlevel": 0,
@@ -167,7 +218,7 @@
    "role": "PP Estimator",
    "read": 1,
    "write": 1,
-   "create": 1,
+   "create": 0,
    "delete": 0,
    "permlevel": 0,
    "email": 1,
@@ -179,8 +230,21 @@
   {
    "role": "PP Field Tech",
    "read": 1,
-   "write": 0,
+   "write": 1,
    "create": 1,
+   "delete": 0,
+   "permlevel": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1
+  },
+  {
+   "role": "PP Shop",
+   "read": 1,
+   "write": 1,
+   "create": 0,
    "delete": 0,
    "permlevel": 0,
    "email": 1,
@@ -192,7 +256,7 @@
   {
    "role": "PP Bookkeeper",
    "read": 1,
-   "write": 0,
+   "write": 1,
    "create": 0,
    "delete": 0,
    "permlevel": 0,
@@ -222,5 +286,7 @@
  "track_changes": 1,
  "autoname": "naming_series:",
  "naming_rule": "By \"Naming Series\" field",
- "search_fields": "project,customer"
+ "title_field": "vendor_name",
+ "show_title_field_in_link": 1,
+ "search_fields": "project,vendor_name,category"
 }

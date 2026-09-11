@@ -17,13 +17,15 @@ PROJECT_TYPES = [
     "Remodel", "New construction", "Generator", "Commercial project", "Warranty", "Other",
 ]
 
-# Our DocTypes appear inside ERPNext's own sidebars instead of a separate "PowerPro" section.
+# Office sidebars of ERPNext get our links too (the Field sidebar ships as a file).
 # sidebar title -> [(anchor link_to, [(link_to, link_type, label), ...]), ...]
 SIDEBAR_ITEMS = {
     "Projects": [
         ("Project", [("Visit", "DocType", "Visits"), ("Change Order", "DocType", "Change Orders"),
-                     ("Permit", "DocType", "Permits"), ("Job Photo", "DocType", "Photos")]),
-        ("Projects Settings", [("PowerPro Settings", "DocType", "Power Professor Settings")]),
+                     ("Permit", "DocType", "Permits"), ("Job Photo", "DocType", "Photos"),
+                     ("Field Note", "DocType", "Field Notes"), ("Field Expense", "DocType", "Field Expenses")]),
+        ("Projects Settings", [("PowerPro Settings", "DocType", "Power Professor Settings"),
+                               ("Visit Checklist Template", "DocType", "Visit Checklist Templates")]),
     ],
     "CRM": [
         ("Customer", [("Service Request", "DocType", "Service Requests"), ("Property", "DocType", "Properties"),
@@ -32,6 +34,21 @@ SIDEBAR_ITEMS = {
     "Stock": [
         ("Warehouse", [("Van", "DocType", "Vans")]),
     ],
+}
+
+CHECKLIST_TEMPLATES = {
+    "Service call": [("Confirm complaint with customer", 1), ("Test and diagnose", 1), ("Explain findings and price before work", 1),
+                     ("Photos before", 1), ("Repair / replace", 1), ("Test operation", 1), ("Photos after", 1),
+                     ("Clean up work area", 0), ("Customer signature", 1)],
+    "Panel upgrade": [("Permit on site", 1), ("Utility disconnect confirmed", 1), ("Photos before (panel, meter)", 1),
+                      ("Label circuits", 1), ("Torque all terminations", 1), ("Bonding and grounding verified", 1),
+                      ("Panel schedule filled", 1), ("Photos after", 1), ("Inspection scheduled", 1), ("Customer walkthrough", 1)],
+    "EV charger": [("Load calculation on file", 1), ("Permit on site", 1), ("Photos before", 1), ("Dedicated circuit and breaker size verified", 1),
+                   ("Charger mounted and torqued", 1), ("Test charge with customer's vehicle or tester", 1), ("Photos after", 1),
+                   ("App / Wi-Fi setup shown to customer", 0), ("Inspection scheduled", 1)],
+    "Safety check": [("Panel: brand, amps, condition", 1), ("GFCI / AFCI test", 1), ("Smoke / CO detectors", 1),
+                     ("Visible wiring and junction boxes", 1), ("Outlets and switches sample test", 1), ("Photos of findings", 1),
+                     ("Written summary handed / sent", 1)],
 }
 
 
@@ -50,6 +67,31 @@ def ensure_project_types():
     for name in PROJECT_TYPES:
         if not frappe.db.exists("Project Type", name):
             frappe.get_doc({"doctype": "Project Type", "project_type": name}).insert(ignore_permissions=True)
+
+
+def ensure_checklist_templates():
+    if not frappe.db.exists("DocType", "Visit Checklist Template"):
+        return
+    for ptype, items in CHECKLIST_TEMPLATES.items():
+        if frappe.db.exists("Visit Checklist Template", ptype):
+            continue
+        if not frappe.db.exists("Project Type", ptype):
+            continue
+        doc = frappe.get_doc({"doctype": "Visit Checklist Template", "template_name": ptype,
+                              "project_type": ptype, "is_active": 1,
+                              "items": [{"task": t, "is_required": r} for t, r in items]})
+        doc.insert(ignore_permissions=True)
+
+
+def ensure_dispatch_board():
+    """Kanban 'Dispatch' on Visit.status — the dispatcher's board."""
+    if frappe.db.exists("Kanban Board", "Dispatch") or not frappe.db.exists("DocType", "Visit"):
+        return
+    try:
+        from frappe.desk.doctype.kanban_board.kanban_board import quick_kanban_board
+        quick_kanban_board("Visit", "Dispatch", "status")
+    except Exception:
+        frappe.log_error(title="PowerPro: could not create Dispatch kanban")
 
 
 def ensure_sidebar_items():
@@ -130,8 +172,10 @@ def after_migrate():
 def _all():
     ensure_roles()
     ensure_project_types()
+    ensure_checklist_templates()
     remove_old_artifacts()
     ensure_sidebar_items()
+    ensure_dispatch_board()
     s = frappe.get_single("PowerPro Settings")
     s.flags.ignore_permissions = True
     s.save()

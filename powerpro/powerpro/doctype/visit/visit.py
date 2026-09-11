@@ -20,6 +20,10 @@ class Visit(Document):
             self.signed_at = now_datetime()
         if self.status == "Done" and not self.check_out:
             self.check_out = now_datetime()
+        if self.status == "Done":
+            missing = [r.task for r in (self.checklist or []) if r.is_required and not r.done]
+            if missing:
+                frappe.throw(_("Checklist items still open: {0}").format(", ".join(missing)))
         for row in self.crew or []:
             if row.employee and not row.employee_name:
                 row.employee_name = frappe.db.get_value("Employee", row.employee, "employee_name")
@@ -28,13 +32,30 @@ class Visit(Document):
         if not self.project:
             return
         p = frappe.db.get_value("Project", self.project,
-                                ["customer", "project_name", "pp_property", "latitude", "longitude"], as_dict=True)
+                                ["customer", "project_name", "pp_property", "latitude", "longitude",
+                                 "pp_instructions", "project_type"], as_dict=True)
         if not p:
             return
         self.customer = p.customer
         self.property = p.pp_property
         self.latitude, self.longitude = p.latitude, p.longitude
+        self.instructions = p.pp_instructions
         self.title = " · ".join([x for x in [p.customer, p.project_name] if x])
+        self.apply_checklist_template(p.project_type)
+
+    def apply_checklist_template(self, project_type):
+        if self.checklist:
+            return
+        if not self.checklist_template and project_type:
+            names = frappe.get_all("Visit Checklist Template",
+                                   filters={"project_type": project_type, "is_active": 1}, pluck="name")
+            if len(names) == 1:
+                self.checklist_template = names[0]
+        if not self.checklist_template:
+            return
+        tpl = frappe.get_doc("Visit Checklist Template", self.checklist_template)
+        for row in tpl.items:
+            self.append("checklist", {"task": row.task, "is_required": row.is_required})
 
     def set_window(self):
         if not self.visit_date:

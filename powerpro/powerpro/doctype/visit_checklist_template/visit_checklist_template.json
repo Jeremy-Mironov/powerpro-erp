@@ -6,70 +6,58 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "van_name",
-  "license_plate",
-  "warehouse",
+  "template_name",
+  "project_type",
   "c1",
-  "default_driver",
   "is_active",
-  "notes"
+  "s_items",
+  "items"
  ],
  "fields": [
   {
-   "fieldname": "van_name",
+   "fieldname": "template_name",
    "fieldtype": "Data",
-   "label": "Van",
+   "label": "Template name",
    "reqd": 1,
    "in_list_view": 1
   },
   {
-   "fieldname": "license_plate",
-   "fieldtype": "Data",
-   "label": "License plate",
-   "in_list_view": 1
-  },
-  {
-   "fieldname": "warehouse",
+   "fieldname": "project_type",
    "fieldtype": "Link",
-   "label": "Stock warehouse",
-   "options": "Warehouse",
-   "reqd": 1,
+   "label": "Project type",
+   "options": "Project Type",
    "in_list_view": 1,
-   "description": "Create a Warehouse per van (e.g. Van 1 - PP) and link it here"
+   "in_standard_filter": 1,
+   "description": "Visits of projects of this type get this checklist automatically (when it is the only active template for the type)"
   },
   {
    "fieldname": "c1",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "default_driver",
-   "fieldtype": "Link",
-   "label": "Default driver",
-   "options": "Employee"
-  },
-  {
    "fieldname": "is_active",
    "fieldtype": "Check",
    "label": "Active",
-   "default": "1"
+   "default": "1",
+   "in_list_view": 1
   },
   {
-   "fieldname": "notes",
-   "fieldtype": "Small Text",
-   "label": "Notes"
+   "fieldname": "s_items",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Visit Checklist Template Item"
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [
-  {
-   "link_doctype": "Visit",
-   "link_fieldname": "van"
-  }
- ],
+ "links": [],
  "modified": "2026-09-11 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "PowerPro",
- "name": "Van",
+ "name": "Visit Checklist Template",
  "owner": "Administrator",
  "permissions": [
   {
@@ -114,7 +102,7 @@
   {
    "role": "PP Estimator",
    "read": 1,
-   "write": 0,
+   "write": 1,
    "create": 0,
    "delete": 0,
    "permlevel": 0,
@@ -128,19 +116,6 @@
    "role": "PP Field Tech",
    "read": 1,
    "write": 0,
-   "create": 0,
-   "delete": 0,
-   "permlevel": 0,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "report": 1,
-   "share": 1
-  },
-  {
-   "role": "PP Shop",
-   "read": 1,
-   "write": 1,
    "create": 0,
    "delete": 0,
    "permlevel": 0,
@@ -168,6 +143,6 @@
  "sort_order": "DESC",
  "states": [],
  "track_changes": 0,
- "autoname": "field:van_name",
+ "autoname": "field:template_name",
  "naming_rule": "By fieldname"
 }

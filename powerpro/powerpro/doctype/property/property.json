@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 0,
- "creation": "2026-09-10 20:00:00.000000",
+ "creation": "2026-09-11 09:00:00.000000",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -31,8 +31,15 @@
   "access_notes",
   "gate_code",
   "c3",
+  "territory",
+  "s_geo",
   "latitude",
   "longitude",
+  "geocode_status",
+  "c4",
+  "formatted_address",
+  "county",
+  "google_place_id",
   "s_sys",
   "jobber_property_id",
   "is_mirror"
@@ -182,17 +189,60 @@
    "fieldtype": "Column Break"
   },
   {
+   "fieldname": "territory",
+   "fieldtype": "Link",
+   "label": "Territory",
+   "options": "Territory",
+   "read_only": 1,
+   "in_standard_filter": 1,
+   "description": "County, set automatically from the geocoded address"
+  },
+  {
+   "fieldname": "s_geo",
+   "fieldtype": "Section Break",
+   "label": "Location",
+   "collapsible": 1
+  },
+  {
    "fieldname": "latitude",
    "fieldtype": "Float",
    "label": "Latitude",
    "precision": "6",
-   "description": "With longitude this puts the property on the Map view"
+   "description": "Filled by Google when the address is saved; can be corrected by hand"
   },
   {
    "fieldname": "longitude",
    "fieldtype": "Float",
    "label": "Longitude",
    "precision": "6"
+  },
+  {
+   "fieldname": "geocode_status",
+   "fieldtype": "Data",
+   "label": "Geocode status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "c4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "formatted_address",
+   "fieldtype": "Data",
+   "label": "Formatted address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "county",
+   "fieldtype": "Data",
+   "label": "County",
+   "read_only": 1
+  },
+  {
+   "fieldname": "google_place_id",
+   "fieldtype": "Data",
+   "label": "Google place ID",
+   "read_only": 1
   },
   {
    "fieldname": "s_sys",
@@ -239,7 +289,7 @@
    "group": "Sales"
   }
  ],
- "modified": "2026-09-10 20:00:00.000000",
+ "modified": "2026-09-11 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "PowerPro",
  "name": "Property",

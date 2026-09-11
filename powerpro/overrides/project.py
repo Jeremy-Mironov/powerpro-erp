@@ -99,3 +99,9 @@ def refresh_billing(project):
         if new != current:
             updates["pp_status"] = new
     frappe.db.set_value("Project", project, updates, update_modified=False)
+
+
+def on_sales_order(doc, method=None):
+    """Sales Order after_insert: the first order of a project becomes its line items."""
+    if doc.get("project") and not frappe.db.get_value("Project", doc.project, "sales_order"):
+        frappe.db.set_value("Project", doc.project, "sales_order", doc.name, update_modified=False)

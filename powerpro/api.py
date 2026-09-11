@@ -81,3 +81,23 @@ def log_sms(sid, direction, from_number, to_number, body, received_at=None):
     })
     doc.insert(ignore_permissions=True)
     return {"name": doc.name, "created": True, "customer": customer, "service_request": sr}
+
+
+@frappe.whitelist()
+def make_sales_order_from_project(project):
+    """Line items of a job: a draft Sales Order built from the project's quotation, linked to the project."""
+    from erpnext.selling.doctype.quotation.quotation import make_sales_order
+
+    doc = frappe.get_doc("Project", project)
+    doc.check_permission("write")
+    if doc.sales_order:
+        return doc.sales_order
+    if not doc.pp_quotation:
+        frappe.throw("This project has no quotation; create the Sales Order by hand")
+    so = make_sales_order(doc.pp_quotation)
+    so.project = doc.name
+    for row in so.items:
+        row.project = doc.name
+    so.insert()
+    doc.db_set("sales_order", so.name, update_modified=False)
+    return so.name

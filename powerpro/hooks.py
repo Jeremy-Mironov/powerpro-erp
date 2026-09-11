@@ -1,7 +1,7 @@
 app_name = "powerpro"
 app_title = "PowerPro"
 app_publisher = "Power Professor LLC"
-app_description = "Field service layer for Power Professor on ERPNext: requests, jobs (Project), visits, permits, change orders, calls"
+app_description = "Field service layer for Power Professor on ERPNext: requests, jobs (Project), visits, permits, change orders, notes, calls"
 app_email = "jeremy@powerpro.info"
 app_license = "MIT"
 required_apps = ["erpnext"]
@@ -17,8 +17,12 @@ fixtures = [
     {"dt": "Role", "filters": [["name", "like", "PP %"]]},
 ]
 
-# Client scripts for ERPNext's Project form and list (the Job)
-doctype_js = {"Project": "public/js/project.js"}
+# Shared desk JS (field-notes panel) and per-DocType client scripts on ERPNext forms
+app_include_js = ["/assets/powerpro/js/notes.js"]
+doctype_js = {
+    "Project": "public/js/project.js",
+    "Customer": "public/js/customer.js",
+}
 doctype_list_js = {"Project": "public/js/project_list.js"}
 
 doc_events = {
@@ -29,6 +33,7 @@ doc_events = {
         "validate": "powerpro.overrides.quotation.validate",
         "before_submit": "powerpro.overrides.quotation.before_submit",
     },
+    "Sales Order": {"after_insert": "powerpro.overrides.project.on_sales_order"},
     "Sales Invoice": {
         "validate": "powerpro.overrides.mirror.guard",
         "on_submit": "powerpro.overrides.project.on_invoice_change",
@@ -38,6 +43,14 @@ doc_events = {
         "on_submit": "powerpro.overrides.project.on_payment",
         "on_cancel": "powerpro.overrides.project.on_payment",
     },
+}
+
+# Field notes are filtered by visibility level (Everyone / Office / Owner)
+permission_query_conditions = {
+    "Field Note": "powerpro.powerpro.doctype.field_note.field_note.get_permission_query_conditions",
+}
+has_permission = {
+    "Field Note": "powerpro.powerpro.doctype.field_note.field_note.has_permission",
 }
 
 scheduler_events = {
