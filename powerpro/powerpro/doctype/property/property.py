@@ -10,7 +10,7 @@ class Property(Document):
     def validate(self):
         guard_mirror(self)
         self.title = ", ".join([x for x in [self.address_line, self.city] if x])
-        retry = not (self.latitude and self.longitude) and (self.geocode_status or "") in ("", "NO_KEY", "REQUEST_FAILED")
+        retry = not (self.latitude and self.longitude) and (self.geocode_status or "") in ("", "REQUEST_FAILED")
         if self.address_changed() or retry:
             geocode_property(self)
         if self.county and not self.territory:

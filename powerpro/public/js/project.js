@@ -41,8 +41,8 @@ frappe.ui.form.on("Project", {
                 frm.save();
             }).addClass("btn-primary");
         }
-        if (frm.doc.latitude && frm.doc.longitude) {
-            frm.add_custom_button(__("Navigate"), () => window.open(`https://www.google.com/maps/dir/?api=1&destination=${frm.doc.latitude},${frm.doc.longitude}`));
+        if (frm.doc.pp_property || (frm.doc.latitude && frm.doc.longitude)) {
+            frm.add_custom_button(__("Navigate"), () => powerpro.geo.navigate(frm.doc.pp_property, frm.doc.latitude, frm.doc.longitude));
         }
     },
     pp_property(frm) {

@@ -37,8 +37,8 @@ frappe.ui.form.on("Visit", {
             }, __("Create"));
         }
         frm.add_custom_button(__("Timesheet"), () => frappe.new_doc("Timesheet", {parent_project: frm.doc.project}), __("Create"));
-        if (frm.doc.latitude && frm.doc.longitude) {
-            frm.add_custom_button(__("Navigate"), () => window.open(`https://www.google.com/maps/dir/?api=1&destination=${frm.doc.latitude},${frm.doc.longitude}`));
+        if (frm.doc.property || (frm.doc.latitude && frm.doc.longitude)) {
+            frm.add_custom_button(__("Navigate"), () => powerpro.geo.navigate(frm.doc.property, frm.doc.latitude, frm.doc.longitude));
         }
     },
     checklist_template(frm) {

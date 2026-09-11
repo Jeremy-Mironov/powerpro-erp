@@ -17,8 +17,8 @@ fixtures = [
     {"dt": "Role", "filters": [["name", "like", "PP %"]]},
 ]
 
-# Shared desk JS (field-notes panel) and per-DocType client scripts on ERPNext forms
-app_include_js = ["/assets/powerpro/js/notes.js"]
+# Shared desk JS (field-notes panel, navigation) and per-DocType client scripts on ERPNext forms
+app_include_js = ["/assets/powerpro/js/notes.js", "/assets/powerpro/js/geo.js"]
 doctype_js = {
     "Project": "public/js/project.js",
     "Customer": "public/js/customer.js",

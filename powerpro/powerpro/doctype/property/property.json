@@ -39,7 +39,7 @@
   "c4",
   "formatted_address",
   "county",
-  "google_place_id",
+  "geocode_source",
   "s_sys",
   "jobber_property_id",
   "is_mirror"
@@ -208,7 +208,7 @@
    "fieldtype": "Float",
    "label": "Latitude",
    "precision": "6",
-   "description": "Filled by Google when the address is saved; can be corrected by hand"
+   "description": "Filled from the address on save (US Census / OpenStreetMap, free); can be corrected by hand"
   },
   {
    "fieldname": "longitude",
@@ -239,9 +239,9 @@
    "read_only": 1
   },
   {
-   "fieldname": "google_place_id",
+   "fieldname": "geocode_source",
    "fieldtype": "Data",
-   "label": "Google place ID",
+   "label": "Geocoded by",
    "read_only": 1
   },
   {

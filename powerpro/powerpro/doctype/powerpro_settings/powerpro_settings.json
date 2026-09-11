@@ -30,9 +30,7 @@
   "c4",
   "shop_warehouse",
   "s_geo",
-  "google_maps_api_key",
-  "c5",
-  "geocode_region"
+  "geocoder"
  ],
  "fields": [
   {
@@ -168,20 +166,12 @@
    "label": "Maps"
   },
   {
-   "fieldname": "google_maps_api_key",
-   "fieldtype": "Password",
-   "label": "Google Maps API key (Geocoding API)",
-   "description": "Enter here, never in chat. Properties are geocoded on save"
-  },
-  {
-   "fieldname": "c5",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "geocode_region",
-   "fieldtype": "Data",
-   "label": "Geocoding region bias",
-   "default": "us"
+   "fieldname": "geocoder",
+   "fieldtype": "Select",
+   "label": "Geocoder (address → coordinates)",
+   "options": "US Census + OpenStreetMap fallback\nUS Census only\nOpenStreetMap only",
+   "default": "US Census + OpenStreetMap fallback",
+   "description": "Both are free and need no key. US Census (US-only) returns the county; OpenStreetMap is tried when Census finds no match. Properties are geocoded on save"
   }
  ],
  "index_web_pages_for_search": 1,

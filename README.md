@@ -30,9 +30,13 @@ standard objects only; ERPNext's own sections stay for the office.
   (customer → property → project → visit), filtered by the viewer's role
   (`permission_query_conditions` + `has_permission`).
 - **Instructions for crew** (`pp_instructions` on Project) are copied onto every visit.
-- **Geocoding** — properties are geocoded on save through Google (key in PowerPro
-  Settings, a Password field); county → ERPNext Territory (created on demand under
-  the state); coordinates flow to projects and visits → Map views.
+- **Geocoding** — properties are geocoded on save by the US Census Geocoder (free,
+  no key, US-only, returns the county) with OpenStreetMap Nominatim as fallback;
+  choice in PowerPro Settings. No Google APIs: Google's terms forbid showing its
+  geocoding results on a non-Google map and storing coordinates beyond 30 days.
+  County → ERPNext Territory (created on demand under the state); coordinates flow
+  to projects and visits → Map views (OpenStreetMap, built into Frappe). "Navigate"
+  opens Google Maps in the browser by street address — no API involved.
 - **Visit** — GPS at check-in / check-out (phone browser), checklist from templates
   per project type (seeded: Service call, Panel upgrade, EV charger, Safety check),
   required items block "Done", buttons Navigate / Issue materials / Transfer to van.
@@ -85,7 +89,7 @@ deploy/                         apps.json + step-by-step install on frappe_docke
 
 ### Project customizations (`powerpro/custom/project.json`)
 
-- 27 custom fields, all `pp_*` except `latitude` / `longitude`.
+- 28 custom fields, all `pp_*` except `latitude` / `longitude`.
 - Form layout via a `field_order` property setter: first tab is the job (title,
   status, type, customer, property, lead tech, schedule, scope, approval & permit,
   origin, location); ERPNext's Costing / Progress / More Info / Connections tabs stay.
